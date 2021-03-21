@@ -4,14 +4,14 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="example-pkg-YOUR-USERNAME-HERE", # Replace with your own username
+    name="flexcluster",
     version="0.0.1",
     author="Humberto Marchezi",
     author_email="hcmarchezi@gmail.com",
     description="flexible clustering algorithm that allows user-define dissimilarity an centroid calculation",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/voctree",
+    url="https://github.com/pypa/flexcluster",
     project_urls={
         "Bug Tracker": "https://github.com/pypa/voctree/issues",
     },
