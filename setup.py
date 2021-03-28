@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="flexcluster",
-    version="0.0.2",
+    version="0.0.3",
     author="Humberto Marchezi",
     author_email="hcmarchezi@gmail.com",
     description="flexible clustering algorithm that allows user-define dissimilarity an centroid calculation",
@@ -20,7 +20,6 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    package_dir={"": "flexcluster"},
-    packages=setuptools.find_packages(where="flexcluster"),
+    packages=["flexcluster",  "flexcluster.tests", "flexcluster.impl", "flexcluster.impl.tests"],
     python_requires=">=3.6",
 )
