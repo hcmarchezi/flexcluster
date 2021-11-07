@@ -8,10 +8,11 @@ The package provides a generic clustering function that allows customization wit
 
 ```
 centroids, centroid_labels = clustering(
-            data,
-            k=3,
+            data, <--------------------------------- array of elements
+            k=3, <---------------------------------- number of clusters
             dissimilarity_fn=dissimilarity_fn, <---- dissimilarity function
-            centroid_calc_fn=centroid_calc_fn, <---- centroid calculation function)
+            centroid_calc_fn=centroid_calc_fn, <---- centroid calculation function
+            max_tries=5) <-------------------------- number of clustering tries (get best result)
             
 centroids => calculated centroids per cluster
 centroid_labels => map with a numeric key for each cluster and value is an array of item indexes
