@@ -6,6 +6,7 @@ from flexcluster.impl.cluster_impl import _calculate_new_centroids
 from flexcluster.impl.cluster_impl import _find_nearest_centroid
 from flexcluster.impl.cluster_impl import _choose_initial_centroids
 from flexcluster.impl.cluster_impl import _clustering
+from flexcluster.impl.cluster_impl import _calculate_cluster_cost
 
 class ClusteringTestCase(unittest.TestCase):
     def test_clustering(self):
@@ -27,6 +28,17 @@ class ClusteringTestCase(unittest.TestCase):
         assert {2, 5, 8} == set(centroid_labels[1])
         assert {1, 3, 7} == set(centroid_labels[2])
 
+
+class CalculateClusterCostTestCase(unittest.TestCase):
+    def test_calculate_cluster_cost(self):
+        data = np.array([2, 104, 51, 105, 4, 53, 3, 103, 52])
+        dissimilarity_fn = lambda item1, item2: np.abs(item2 - item1)
+        centroids = [3, 52, 104]
+        centroid_labels = [[0, 4, 6], [2, 5, 8], [1, 3, 7]]
+
+        expected_cost = 0.6666666666666666
+
+        assert expected_cost == _calculate_cluster_cost(data, dissimilarity_fn, centroids, centroid_labels)
 
 
 class ChooseInitialCentroidsTestCase(unittest.TestCase):

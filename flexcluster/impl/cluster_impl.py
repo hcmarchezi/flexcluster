@@ -9,13 +9,30 @@ def _clustering(data, k, dissimilarity_fn, centroid_calc_fn, stop_criteria=0.1, 
     centroid_labels = None
     diff = 100000
 
+    centroid_labels, centroids = _clustering_algorithm(
+        centroid_calc_fn, centroid_labels, centroids, data, diff, dissimilarity_fn, stop_criteria)
+
+    return centroids, centroid_labels
+
+
+def _clustering_algorithm(centroid_calc_fn, centroid_labels, centroids, data, diff, dissimilarity_fn, stop_criteria):
     while diff > stop_criteria:
         centroid_labels = _find_nearest_centroid(data, centroids, dissimilarity_fn)
         new_centroids = _calculate_new_centroids(data, centroid_labels, centroid_calc_fn, centroids)
         diff = _average_centroids_move(centroids, new_centroids)
         centroids = new_centroids
+    return centroid_labels, centroids
 
-    return centroids, centroid_labels
+
+def _calculate_cluster_cost(data, dissimilarity_fn, centroids, centroid_labels):
+    distance = 0
+    for centroid_index in range(len(centroids)):
+        centroid = centroids[centroid_index]
+        for item_index in centroid_labels[centroid_index]:
+            item = data[item_index]
+            distance += dissimilarity_fn(centroid, item)
+
+    return distance / len(data)
 
 
 def _choose_initial_centroids(data, k):
@@ -53,12 +70,12 @@ def _calculate_new_centroids(data, centroid_labels, centroid_calc_fn, original_c
     return np.array(centroids)
 
 
-
 def _calculate_new_centroid(cluster_data, centroid_calc_fn, original_centroid):
     if len(cluster_data) == 0:
         return original_centroid
     else:
         return centroid_calc_fn(cluster_data)
+
 
 def _average_centroids_move(centroids, new_centroids, dissimilarity_fn=None):
     if dissimilarity_fn is None:
