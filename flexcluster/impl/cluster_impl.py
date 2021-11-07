@@ -1,18 +1,31 @@
 import numpy as np
 
-def _clustering(data, k, dissimilarity_fn, centroid_calc_fn, stop_criteria=0.1, initial_centroids=None):
+def _clustering(data, k, dissimilarity_fn, centroid_calc_fn, stop_criteria=0.1, initial_centroids=None, max_tries=5):
     if initial_centroids is None:
         centroids = _choose_initial_centroids(data, k)
     else:
         centroids = initial_centroids
 
-    centroid_labels = None
-    diff = 100000
+    best_result_cluster_cost = 10000000
+    best_result_centroids = None
+    best_result_centroid_labels = None
 
-    centroid_labels, centroids = _clustering_algorithm(
-        centroid_calc_fn, centroid_labels, centroids, data, diff, dissimilarity_fn, stop_criteria)
+    while max_tries > 0:
+        centroid_labels = None
+        diff = 100000
 
-    return centroids, centroid_labels
+        centroid_labels, centroids = _clustering_algorithm(
+            centroid_calc_fn, centroid_labels, centroids, data, diff, dissimilarity_fn, stop_criteria)
+
+        cluster_cost = _calculate_cluster_cost(data, dissimilarity_fn, centroids, centroid_labels)
+
+        if cluster_cost < best_result_cluster_cost:
+            best_result_centroids = centroids
+            best_result_centroid_labels = centroid_labels
+
+        max_tries -= 1
+
+    return best_result_centroids, best_result_centroid_labels
 
 
 def _clustering_algorithm(centroid_calc_fn, centroid_labels, centroids, data, diff, dissimilarity_fn, stop_criteria):

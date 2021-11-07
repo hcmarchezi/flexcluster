@@ -13,7 +13,8 @@ class KmedoidsTestCase(unittest.TestCase):
             data,
             k=3,
             stop_criteria=0.1,
-            initial_centroids=initial_centroids)
+            initial_centroids=initial_centroids,
+            max_tries=1)
 
         assert {4, 52, 104} == set(centroids)
         assert {0, 4, 6} == set(centroid_labels[0])
@@ -30,7 +31,8 @@ class KmeansTestCase(unittest.TestCase):
             data,
             k=3,
             stop_criteria=0.1,
-            initial_centroids=initial_centroids)
+            initial_centroids=initial_centroids,
+            max_tries=1)
 
         assert {5, 52, 104} == set(centroids)
         assert {0, 4, 6} == set(centroid_labels[0])
@@ -51,7 +53,8 @@ class ClusteringTestCase(unittest.TestCase):
             dissimilarity_fn=dissimilarity_fn,
             centroid_calc_fn=centroid_calc_fn,
             stop_criteria=0.1,
-            initial_centroids=initial_centroids)
+            initial_centroids=initial_centroids,
+            max_tries=1)
 
         assert {3, 52, 104} == set(centroids)
         assert {0, 4, 6} == set(centroid_labels[0])
