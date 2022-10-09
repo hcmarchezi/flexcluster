@@ -2,7 +2,7 @@
 
 flexcluster is a python package that provides a flexible implementation for clustering algorithms based on K-means.
 
-The package provides a generic clustering function that allows customization with callback parameters:
+The package provides a generic clustering function that allows distance function customization with callback parameters:
 * **dissimilarity function** - *function(datapoint1, datapoint2) : int* - function that defines the distance between 2 data points.
 * **centroid calculation function** - *function(datapoints : np.array) : datapoint* - function that calculates a centroid given an array of datapoints.
 
