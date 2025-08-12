@@ -97,7 +97,7 @@ def _calculate_new_centroid(cluster_data, centroid_calc_fn, original_centroid):
 
 def _average_centroids_move(centroids, new_centroids, dissimilarity_fn=None):
     if dissimilarity_fn is None:
-        dissimilarity_fn = lambda a, b: np.abs(a - b)
+        def dissimilarity_fn(a, b): return np.abs(a - b)
     result = []
     for index in range(len(centroids)):
         result.append(dissimilarity_fn(centroids[index], new_centroids[index]))

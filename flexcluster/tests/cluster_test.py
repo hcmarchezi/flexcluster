@@ -43,8 +43,8 @@ class TestKmeans:
 class TestClustering:
     def test_clustering(self):
         data = [2, 104, 51, 105, 4, 53, 3, 103, 52]
-        dissimilarity_fn = lambda item1, item2: np.abs(item2 - item1)
-        centroid_calc_fn = lambda arr: np.mean(arr)
+        def dissimilarity_fn(item1, item2): return np.abs(item2 - item1)
+        def centroid_calc_fn(arr): return np.mean(arr)
         initial_centroids = [20, 70, 100]
 
         centroids, centroid_labels = clustering(

@@ -11,8 +11,8 @@ from flexcluster.impl.cluster_impl import _calculate_cluster_cost
 class TestClustering:
     def test_clustering(self):
         data = np.array([2, 104, 51, 105, 4, 53, 3, 103, 52])
-        dissimilarity_fn = lambda item1, item2: np.abs(item2 - item1)
-        centroid_calc_fn = lambda arr: np.mean(arr)
+        def dissimilarity_fn(item1, item2): return np.abs(item2 - item1)
+        def centroid_calc_fn(arr): return np.mean(arr)
         initial_centroids = [20, 70, 100]
 
         centroids, centroid_labels = _clustering(
@@ -32,7 +32,7 @@ class TestClustering:
 class TestCalculateClusterCost:
     def test_calculate_cluster_cost(self):
         data = np.array([2, 104, 51, 105, 4, 53, 3, 103, 52])
-        dissimilarity_fn = lambda item1, item2: np.abs(item2 - item1)
+        def dissimilarity_fn(item1, item2): return np.abs(item2 - item1)
         centroids = [3, 52, 104]
         centroid_labels = [[0, 4, 6], [2, 5, 8], [1, 3, 7]]
 
@@ -55,7 +55,7 @@ class TestFindNearestCentroid:
     def test_find_nearest_centroid(self):
         data = np.array([0, 1, 2, 3, 4, 10, 11, 12, 13, 14, 20, 21, 22, 23, 24])
         centroids = np.array([3, 13, 23])
-        dissimilarity_fn = lambda item1, item2: np.abs(item2 - item1)
+        def dissimilarity_fn(item1, item2): return np.abs(item2 - item1)
         centroid_labels = _find_nearest_centroid(data, centroids, dissimilarity_fn)
 
         assert centroid_labels[0] == [0, 1, 2, 3, 4]
@@ -71,7 +71,7 @@ class TestCalculateNewCentroids:
             1: [3, 4, 5],
             2: [7, 8, 6]}
 
-        average_fn = lambda data: np.mean(data)
+        def average_fn(data): return np.mean(data)
         original_centroids = [15, 25, 35]
         new_centroids = _calculate_new_centroids(data, centroid_labels, average_fn, original_centroids)
         assert 3 == len(new_centroids)
@@ -83,14 +83,14 @@ class TestCalculateNewCentroids:
 class TestCalculateNewCentroid:
     def test_calculate_new_centroid(self):
         cluster_data = [1, 2, 3]
-        centroid_calc_fn = lambda cluster_data: np.mean(cluster_data)
+        def centroid_calc_fn(cluster_data): return np.mean(cluster_data)
         original_centroid = 1
         new_centroid = _calculate_new_centroid(cluster_data, centroid_calc_fn, original_centroid)
         assert 2 == new_centroid
 
     def test_keep_original_centroid_if_cluster_data_is_empty(self):
         cluster_data = []
-        average_fn = lambda cluster_data: np.mean(cluster_data)
+        def average_fn(cluster_data): return np.mean(cluster_data)
         original_centroid = 1
         new_centroid = _calculate_new_centroid(cluster_data, average_fn, original_centroid)
         assert 1 == new_centroid
@@ -106,6 +106,6 @@ class TestAverageCentroidsMove:
     def test_average_centroid_move_with_dissimilarity_func(self):
         centroids = np.array([10, 20, 30, 40])
         new_centroids = np.array([20, 30, 40, 50])
-        dist_func = lambda a, b: np.square(a - b)
+        def dist_func(a, b): return np.square(a - b)
         avg_dist = _average_centroids_move(centroids, new_centroids, dissimilarity_fn=dist_func)
         assert 100 == avg_dist
