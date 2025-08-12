@@ -1,6 +1,7 @@
 import numpy as np
 from flexcluster.impl.cluster_impl import _clustering
 
+
 def kmedoids(data, k, stop_criteria=0.1, initial_centroids=None, max_tries=5):
     dissimilarity_fn = lambda item1, item2: np.abs(item2 - item1)
     centroid_calc_fn = lambda arr: np.median(arr)

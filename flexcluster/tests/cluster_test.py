@@ -1,12 +1,12 @@
-import unittest
 import numpy as np
 from flexcluster import clustering
 from flexcluster import kmeans
 from flexcluster import kmedoids
 
-class KmedoidsTestCase(unittest.TestCase):
+
+class TestKmedoids:
     def test_clustering(self):
-        data = np.array([1, 104, 51, 105, 4, 53, 9, 103, 52])
+        data = [1, 104, 51, 105, 4, 53, 9, 103, 52]
         initial_centroids = [20, 70, 100]
 
         centroids, centroid_labels = kmedoids(
@@ -22,9 +22,9 @@ class KmedoidsTestCase(unittest.TestCase):
         assert {1, 3, 7} == set(centroid_labels[2])
 
 
-class KmeansTestCase(unittest.TestCase):
+class TestKmeans:
     def test_clustering(self):
-        data = np.array([3, 104, 51, 105, 4, 53, 8, 103, 52])
+        data = [3, 104, 51, 105, 4, 53, 8, 103, 52]
         initial_centroids = [20, 70, 100]
 
         centroids, centroid_labels = kmeans(
@@ -40,9 +40,9 @@ class KmeansTestCase(unittest.TestCase):
         assert {1, 3, 7} == set(centroid_labels[2])
 
 
-class ClusteringTestCase(unittest.TestCase):
+class TestClustering:
     def test_clustering(self):
-        data = np.array([2, 104, 51, 105, 4, 53, 3, 103, 52])
+        data = [2, 104, 51, 105, 4, 53, 3, 103, 52]
         dissimilarity_fn = lambda item1, item2: np.abs(item2 - item1)
         centroid_calc_fn = lambda arr: np.mean(arr)
         initial_centroids = [20, 70, 100]
@@ -60,7 +60,3 @@ class ClusteringTestCase(unittest.TestCase):
         assert {0, 4, 6} == set(centroid_labels[0])
         assert {2, 5, 8} == set(centroid_labels[1])
         assert {1, 3, 7} == set(centroid_labels[2])
-
-
-if __name__ == '__main__':
-    unittest.main()

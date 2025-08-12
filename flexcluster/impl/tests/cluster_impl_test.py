@@ -1,4 +1,3 @@
-import unittest
 import numpy as np
 from flexcluster.impl.cluster_impl import _average_centroids_move
 from flexcluster.impl.cluster_impl import _calculate_new_centroid
@@ -8,7 +7,8 @@ from flexcluster.impl.cluster_impl import _choose_initial_centroids
 from flexcluster.impl.cluster_impl import _clustering
 from flexcluster.impl.cluster_impl import _calculate_cluster_cost
 
-class ClusteringTestCase(unittest.TestCase):
+
+class TestClustering:
     def test_clustering(self):
         data = np.array([2, 104, 51, 105, 4, 53, 3, 103, 52])
         dissimilarity_fn = lambda item1, item2: np.abs(item2 - item1)
@@ -29,7 +29,7 @@ class ClusteringTestCase(unittest.TestCase):
         assert {1, 3, 7} == set(centroid_labels[2])
 
 
-class CalculateClusterCostTestCase(unittest.TestCase):
+class TestCalculateClusterCost:
     def test_calculate_cluster_cost(self):
         data = np.array([2, 104, 51, 105, 4, 53, 3, 103, 52])
         dissimilarity_fn = lambda item1, item2: np.abs(item2 - item1)
@@ -41,7 +41,7 @@ class CalculateClusterCostTestCase(unittest.TestCase):
         assert expected_cost == _calculate_cluster_cost(data, dissimilarity_fn, centroids, centroid_labels)
 
 
-class ChooseInitialCentroidsTestCase(unittest.TestCase):
+class TestChooseInitialCentroids:
     def test_choose_initial_centroids(self):
         data = np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
         initial_centroids = _choose_initial_centroids(data, k=3)
@@ -51,7 +51,7 @@ class ChooseInitialCentroidsTestCase(unittest.TestCase):
         assert initial_centroids[2] in data
 
 
-class FindNearestCentroidTestCase(unittest.TestCase):
+class TestFindNearestCentroid:
     def test_find_nearest_centroid(self):
         data = np.array([0, 1, 2, 3, 4, 10, 11, 12, 13, 14, 20, 21, 22, 23, 24])
         centroids = np.array([3, 13, 23])
@@ -63,7 +63,7 @@ class FindNearestCentroidTestCase(unittest.TestCase):
         assert centroid_labels[2] == [10, 11, 12, 13, 14]
 
 
-class CalculateNewCentroidsTestCase(unittest.TestCase):
+class TestCalculateNewCentroids:
     def test_calculate_new_centroids(self):
         data = np.array([10, 11, 12, 20, 21, 22, 30, 31, 32])
         centroid_labels = {
@@ -80,7 +80,7 @@ class CalculateNewCentroidsTestCase(unittest.TestCase):
         assert 31 == new_centroids[2]
 
 
-class CalculateNewCentroidTestCase(unittest.TestCase):
+class TestCalculateNewCentroid:
     def test_calculate_new_centroid(self):
         cluster_data = [1, 2, 3]
         centroid_calc_fn = lambda cluster_data: np.mean(cluster_data)
@@ -96,7 +96,7 @@ class CalculateNewCentroidTestCase(unittest.TestCase):
         assert 1 == new_centroid
 
 
-class AverageCentroidsMoveTestCase(unittest.TestCase):
+class TestAverageCentroidsMove:
     def test_average_centroid_move(self):
         centroids = np.array([10, 20, 30, 40])
         new_centroids = np.array([20, 30, 40, 50])
@@ -109,7 +109,3 @@ class AverageCentroidsMoveTestCase(unittest.TestCase):
         dist_func = lambda a, b: np.square(a - b)
         avg_dist = _average_centroids_move(centroids, new_centroids, dissimilarity_fn=dist_func)
         assert 100 == avg_dist
-
-
-if __name__ == '__main__':
-    unittest.main()

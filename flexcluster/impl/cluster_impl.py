@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def _clustering(data, k, dissimilarity_fn, centroid_calc_fn, stop_criteria=0.1, initial_centroids=None, max_tries=5):
     if initial_centroids is None:
         centroids = _choose_initial_centroids(data, k)
@@ -63,7 +64,7 @@ def _find_nearest_centroid(data, centroids, dissimilarity):
         centroid_id = None
         for centroid_idx, c in enumerate(centroids):
             distance = dissimilarity(item, c)
-            if min_dist == None or distance < min_dist:
+            if min_dist is None or distance < min_dist:
                 min_dist = distance
                 centroid_id = centroid_idx
         centroid_labels[centroid_id].append(item_idx)
@@ -75,9 +76,13 @@ def _calculate_new_centroids(data, centroid_labels, centroid_calc_fn, original_c
     centroids = []
 
     for centroid_idx in range(len(original_centroids)):
-        cluster_data = data[centroid_labels[centroid_idx]]
+        indices = centroid_labels[centroid_idx]
+        cluster_data = [item for idx, item in enumerate(data) if idx in indices]
         original_centroid = original_centroids[centroid_idx]
-        new_centroid = _calculate_new_centroid(cluster_data, centroid_calc_fn=centroid_calc_fn, original_centroid=original_centroid)
+        new_centroid = _calculate_new_centroid(
+            cluster_data,
+            centroid_calc_fn=centroid_calc_fn,
+            original_centroid=original_centroid)
         centroids.append(new_centroid)
 
     return np.array(centroids)
