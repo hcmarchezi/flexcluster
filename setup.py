@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="flexcluster",
-    version="0.0.4",
+    version="0.0.5",
     author="Humberto Cardoso Marchezi",
     author_email="hcmarchezi@gmail.com",
     description="flexible clustering algorithm that allows user-define dissimilarity an centroid calculation",
